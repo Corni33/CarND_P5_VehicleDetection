@@ -46,7 +46,7 @@ In my classification pipeline I used "histogram of oriented gradients" (HOG) fea
 Applied to example images, the visualization of the HOG features looks like this:
 ... HOG vis of example images ...
 
-As parameters for the HOG feature extraction I chose `orientations=8`
+As parameters for the HOG feature extraction I chose 'orientations=8', 'pixels_per_cell=(8, 8)'
 
 
 

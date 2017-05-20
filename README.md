@@ -76,7 +76,8 @@ Running the sliding windows search on a single image gives an end result like th
 
 ... image | heatmap | overlay ... mehrere sample images
 
-Thresholding
+Thresholding -> std dev
+Rectangles -> filtering
 
 
 ## Video Processing
@@ -91,11 +92,18 @@ Here's a [link to the resulting video](./output.mp4) that shows the whole detect
 
 ## Discussion
 
-Classifier gets irritated by traffic signs that appear in roughly the same constellation as the back of a car
+Although my vehicle detection pipeline works well on the project video it has some shortcomings and room for improvements.
 
-Bounding Boxes not very tight
+The bounding boxes don't fit very tightly around the vehicle body all the time. 
+Also they still wiggle around quite a bit, even after low pass filtering. 
+These two points have to be addressed before considering using the bounding boxes as input for a path planner, or else the vehicle might change its planned behavior too often.
 
-Can not run in real time
+Another shortcoming of the current pipeline is that multiple vehicles are merged into one common bounding box when they appear close to each other in the image.
+Based on the heat map, the implemented thresholding technique can only see one signle region where a lot of detection were made but can not decide if this region should better be separated to account for multiple vehicles.
+
+
+
+Optimization: run in real time
 
 
 

@@ -128,8 +128,8 @@ Here's a [link to the final video](./output.mp4) that shows the whole detection 
 
 Although my vehicle detection pipeline works well on the project video it has some shortcomings and room for improvements.
 
-The bounding boxes don't fit very tightly around the vehicle body all the time. 
-Also they still wiggle around quite a bit, even after low pass filtering. 
+The bounding boxes don't fit around the vehicle body very tightly at all times. 
+They also still wiggle around quite a bit, even after low pass filtering. 
 These two points have to be addressed before considering using the bounding boxes as input for a path planner, or else the vehicle might change its planned behavior too often.
 
 Another shortcoming of the current pipeline is that multiple vehicles will be merged into a common bounding box when they appear very close to each other in the image.

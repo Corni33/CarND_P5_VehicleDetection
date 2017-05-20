@@ -67,15 +67,17 @@ In the end I settled for a Random Forest Classifier (an ensemble of decision tre
 
 ## Sliding Window Search
 
-The classifier is only able to make predictions for 64 by 64 pixel images.  
-To search for vehicles of different sizes in different locations in a big image, the image can be sub sampled into many smaller regions that get scaled to the desired size of 64 by 64 pixels and then fed into the classifier. 
+The trained classifier is only able to make predictions for 64 by 64 pixel images.  
+To search for vehicles of different sizes at different locations in a big image, the image can be sub sampled into many smaller regions that get scaled to the desired size of 64 by 64 pixels and then fed into the classifier. 
 
-I created a class `DetectionLevel` that contains information on how to crop and scale an image to a specific sub image.
-A list of these `DetectionLevel` objects defines how a big image should be split up into small 64 by 64 pixels regions.
+I created a class `DetectionLevel` (code cell ...) that has the ability to crop and scale an image to create a sub image.
+It can also generate a list of patches (= locations of 64 by 64 px regions) covering the whole sub image (code cell ...).
+I use a list of four `DetectionLevel` objects to define how a big image gets split up into sub images and covered by patches (code cell ...): 
 
-... image with patches on different scales ...
+... image with patches on 4 different scales ...
 
-To speed up the extraction of HOG features, theses features are only calculated once per scale level and after that sub sampled to get the features for a specific 64 by 64 sub region (code cell).
+I chose these specific four subdivisions because I wanted to detect vehicles very close to the ego-vehicle and also far away from it, but still be able to process each frame in a reasonable amount of time.  
+To speed up the extraction of HOG features, theses features are only calculated once for every one of the four scale levels and after that sub sampled to get the features for a specific 64 by 64 sub region (code cell ...).
 
 While running the classifier on every single sub region of the image a heat map is produced that contains non-zero values where the classifier predicts a vehicle to be located.
 Every vehicle detection adds more "heat" to the map, i.e. the intensity values at the corresponding sub regions get increased.

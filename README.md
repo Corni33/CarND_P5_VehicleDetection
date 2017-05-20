@@ -14,8 +14,8 @@ All of the code for this project is contained in [this jupyter notebook](https:/
 
 ## Feature Extraction
 
-A labeled data set of ...# vehicle and ...# non-vehicle sample images, each with a size of 64 by 64 pixels and 3 color channels, served as a basis for the task of classification.
-In order to train a binary classifier to distinguish vehicles from other objects (e.g. road markings, trees, ...), characteristic featurs of these sample images have to be extracted.  
+A labeled data set of 8797 vehicle and 8970 non-vehicle sample images, each with a size of 64 by 64 pixels and 3 color channels, served as a basis for the task of classification.
+In order to train a binary classifier to distinguish vehicles from other objects (e.g. road markings, trees, ...), characteristic featurs of the sample images have to be extracted.  
 
 ### Color Features
 

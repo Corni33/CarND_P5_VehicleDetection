@@ -46,7 +46,11 @@ In my classification pipeline I used "histogram of oriented gradients" (HOG) fea
 Applied to example images, the visualization of the HOG features looks like this:
 ... HOG vis of example images ...
 
-As parameters for the HOG feature extraction I chose 'orientations=8', 'pixels_per_cell=(8, 8)'
+As parameters for the HOG feature extraction I chose `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2,2)`. 
+I tried to increase `pixels_per_cell` to 16 (with `orientations` set to 11) to reduce the number of features and speed up the classifier, but this decreased the accuracy of bounding boxes, i.e. they fit less tight around the vehicles.
+
+
+
 
 
 

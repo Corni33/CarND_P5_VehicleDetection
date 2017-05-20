@@ -21,22 +21,26 @@ In order to train a binary classifier to distinguish vehicles from other objects
 
 ### Color Features
 
-An example of a vehicle image and a non vehicle image looks like this:
-.. example images RGB ... 
+An example of a vehicle image and one of a non-vehicle image looks like this:
+
+.. example images ... 
 
 In this case it's easy to see that one possible criterion for classifying the sample images might be color information.
-To make use of this color information, a histogram for each color channel is calculated and unraveled into a feature vector:
+To make use of this information, a histogram for each color channel is calculated (I chose to use 20 histogram bins) and unraveled into a feature vector:
+
 ... hist plot RGB ....
  .. feature vec plot ...
 
 It turns out that using the YCrCb color space yields better classification results. 
-... YCrCb
+
+... YCrCb image and histogram
 
 Another way of utilizing color information while also retaining some spatial information, is to just take the raw image pixel values and unravel them into a feature vector.
-Doing so for the whole 64 by 64 pixel image will create a very big feature vector (4096 elements!) while not necessarily / and also ... , as not every pixel contains relevant information about the class of the image.
-To cope with this problem the image gets scaled down to a more reasonable resolution that produces a smaller feature vector while still containing information about the spatial structure of the image.
-After some experimentation I chose a resolution of 24 by 24 pixels:
-...image 24 by 24 ...
+Doing so for the whole 64 by 64 pixel image would create a huge feature vector (4096 elements!) while not necessarily being of much use, as not all of the pixels contain relevant information about the class of the image.
+To cope with this problem the image gets scaled down to a more reasonable resolution that produces a smaller feature vector while still retaining information about the spatial structure of the image.
+After some experimentation I chose a downscaled resolution of 16 by 16 pixels:
+
+...image 16 by 16... and feature vec as bar graph
 
 ### HOG Features
 

@@ -93,14 +93,15 @@ This is an example for the final output of the vehicle detection pipeline for a 
 
 ## Video Processing
 
-The sliding windows approach can produce a heat map of vehicle locations for a single image. 
+The sliding window approach can produce a heat map of vehicle locations for a single image. 
 When searching for vehicles in a video stream the additional tracking of vehicle locations over time allows for filtering of false positives. 
+The filtering technique I applied was calculating the current heat map by averaging over the last 10 heat maps (code cell ... ), so that some wrong classifications during only a few frames won't influence the final result, i.e. the current heat map, too much. 
 
-The filtering technique I applied was calculating the current heat map by averaging over the last 10 heat maps (code cell ... ), so that some wrong classifications during a few frames won't influence the final result, i.e. the final heat map, too much. 
+I additionally filtered the vehicle bounding boxes by applying a low pass filter to their defining vertices. 
+A challenge here was to cope with the case of splitting up and merging rectangles when one vehicle passes another one.
+The bounding box filtering is handled in code cell ... .
 
-Rectangles -> filtering
-
-Here's a [link to the resulting video](./output.mp4) that shows the whole detection pipeline in action.
+Here's a [link to the final video](./output.mp4) that shows the whole detection pipeline in action.
 
 
 ## Discussion

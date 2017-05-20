@@ -91,7 +91,7 @@ On an example image the resulting sub images look like this (every contained pat
 
 
 I chose these specific four subdivisions because I wanted to detect vehicles very close to the ego-vehicle and also far away from it, but still be able to process each frame in a reasonable amount of time.  
-To speed up the extraction of HOG features, theses features are only calculated once for every one of the four scale levels and after that sub sampled to get the features for a specific 64 by 64 pixel sub region (code cell ...).
+To speed up the extraction of HOG features, they are only calculated once for each of the four scale levels and after that sub sampled to get the features for a specific 64 by 64 pixel sub region (code cell ...).
 
 While running the classifier on every single sub region of the image a heat map is produced that contains non-zero values where the classifier predicts a vehicle to be located.
 Every vehicle detection adds more "heat" to the map, i.e. the intensity values at the corresponding heat map regions get increased.

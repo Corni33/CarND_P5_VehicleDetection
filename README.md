@@ -12,8 +12,6 @@ To achieve this, the following steps were performed:
 
 All of the code for this project is contained in [this jupyter notebook](https://github.com/Corni33/CarND_P5_VehicleDetection/blob/master/vehicle_detection.ipynb).
 
-![alt-text-1](./readme_images/chessboard_dist.png "Distorted Image") ![alt-text-1](./readme_images/chessboard_undist.png "Undistorted Image") 
-
 ## Feature Extraction
 
 A labeled data set of ...# vehicle and ...# non-vehicle sample images, each with a size of 64 by 64 pixels and 3 color channels, served as a basis for the task of classification.
@@ -23,26 +21,29 @@ In order to train a binary classifier to distinguish vehicles from other objects
 
 An example of a vehicle image and one of a non-vehicle image looks like this:
 
-... samples.png ...
+![alt-text-1](./output_images/samples.png "Example Images")
 
 In this case it's easy to see that one possible criterion for classifying the sample images might be color information.
 To make use of this information, a histogram for each color channel is calculated (I chose to use 20 histogram bins) and unraveled into a feature vector. It turns out that using YCrCb color space instead of RGB yields better classification results. 
 Here are the three color channels of the vehicle image and their corresponding histograms:
 
-... color_channels_vehicle.png ...
-... hist_vehicle.png ...
+![alt-text-1](./output_images/color_channels_vehicle.png "Color channels of vehicle image")
+
+![alt-text-1](./output_images/hist_vehicle.png "Histograms of vehicle image")
 
 And these are the color channels and histograms of the non-vehicle image:
 
-... color_channels_non_vehicle.png ...
-... hist_non_vehicle.png ...
+![alt-text-1](./output_images/color_channels_non_vehicle.png "Color channels of non-vehicle image")
+
+![alt-text-1](./output_images/hist_non_vehicle.png "Histograms of non-vehicle image")
 
 Another way of utilizing color information while also retaining some spatial information, is to just take the raw image pixel values and unravel them into a feature vector.
 Doing so for the whole 64 by 64 pixel image would create a huge feature vector (4096 elements!) while not necessarily being of much use, as not all of the pixels contain relevant information about the class of the image.
 To cope with this problem the image gets scaled down to a more reasonable resolution that produces a smaller feature vector while still retaining information about the spatial structure of the image.
 After some experimentation I chose a downscaled resolution of 16 by 16 pixels:
 
-...down_sampled.png ...
+![alt-text-1](./output_images/down_sampled.png "Down sampled image")
+
 
 ### HOG Features
 
@@ -52,11 +53,11 @@ In my classification pipeline I used Histogram of Oriented Gradients (HOG) featu
 
 Applied to the example image of a vehicle, a visualization of the HOG features looks like this:
 
-... hog_vehicle.png ...
+![alt-text-1](./output_images/hog_vehicle.png "HOG features of vehicle image")
 
 And for the non-vehicle example it looks like this:
 
-... hog_non_vehicle.png ...
+![alt-text-1](./output_images/hog_non_vehicle.png "HOG features of non-vehicle image")
 
 As parameter values for the HOG feature extraction I chose `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2,2)`. 
 I tried to increase `pixels_per_cell` to `(16, 16)` (with `orientations` set to 11) to reduce the number of features and therefore speed up the classifier, but this decreased the accuracy of detected bounding boxes, i.e. they fit less tightly around the vehicles.
@@ -83,10 +84,11 @@ It can also generate a list of patches (= locations of 64 by 64 px regions) cove
 I use a list of four `DetectionLevel` objects to define how a big image gets split up into sub images and covered by patches (code cell ...).
 On an example image the resulting sub images look like this (every contained patch is drawn as a green rectangle):
 
-... sub_image0.png ...
-... sub_image0.png ...
-... sub_image0.png ...
-... sub_image0.png ...
+![alt-text-1](./output_images/sub_image1.png "sum image 1")
+![alt-text-1](./output_images/sub_image2.png "sum image 2")
+![alt-text-1](./output_images/sub_image3.png "sum image 3")
+![alt-text-1](./output_images/sub_image4.png "sum image 4")
+
 
 I chose these specific four subdivisions because I wanted to detect vehicles very close to the ego-vehicle and also far away from it, but still be able to process each frame in a reasonable amount of time.  
 To speed up the extraction of HOG features, theses features are only calculated once for every one of the four scale levels and after that sub sampled to get the features for a specific 64 by 64 pixel sub region (code cell ...).
@@ -95,18 +97,18 @@ While running the classifier on every single sub region of the image a heat map 
 Every vehicle detection adds more "heat" to the map, i.e. the intensity values at the corresponding heat map regions get increased.
 Running the sliding window search on a single image gives a heat map like this (drawn over the input image, lighter regions = more heat):
 
-... heat_map.png ...
+![alt-text-1](./output_images/heat_map.png "heat map")
 
 To get the locations of vehicles in the image, a threshold gets applied to the heat map (code cell ...).
 The value of this threshold is based on the standard deviation of heat values and limited by fixed upper and lower bounds. 
 This is an example of a thresholded heat map:
 
-... heat_map_thresh.png ...
+![alt-text-1](./output_images/heat_map_thresh.png "heat map with threshold")
 
 Bounding boxes are now drawn around every region of the image, where the heat value is bigger than the heat threshold.
 The following image is an example for the final output of the vehicle detection pipeline for a single image: 
 
-... final_image.png ...
+![alt-text-1](./output_images/final_image.png "final output image")
 
 
 ## Video Processing

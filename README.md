@@ -12,6 +12,8 @@ To achieve this, the following steps were performed:
 
 All of the code for completing this project is contained in [this jupyter notebook](https://github.com/Corni33/CarND_P5_VehicleDetection/blob/master/vehicle_detection.ipynb).
 
+![alt-text-1](./readme_images/chessboard_dist.png "Distorted Image") ![alt-text-1](./readme_images/chessboard_undist.png "Undistorted Image") 
+
 ## Feature Extraction
 
 The labeled data set consist of ...# vehicle and ...# non-vehicle images, each with a size of 64 by 64 pixels and 3 color channels.
@@ -29,7 +31,7 @@ To use this information a histogram over the whole image for each color channel 
  .. feature vec plot ...
 
 It turns out that using a different color space can help to 
-...
+... YCrCb
 
 Another way of utilizing color information while also retaining some spatial information, is to just take the raw image pixel values and unravel them into a feature vector.
 Doing so for the whole 64 by 64 pixel image will create a very big feature vector (4096 elements!) while not necessarily / and also ... , as not every pixel contains relevant information about the class of the image.
@@ -39,36 +41,38 @@ After some experimentation I chose a resolution of 24 by 24 pixels:
 
 ### HOG Features
 
-A very important feature for detecting vehicles is their characteristic shape. 
-Even without color information, a human can easily identify a car in many different situations.
-In my classification pipeline I used "histogram of oriented gradients" (HOG) features on all channels of the YCbCr image to extract shape information (code cell ...).
+<!--Even without color information, a human can easily identify a car in many different situations. -->
+Another important feature for detecting vehicles is their characteristic shape and edge distribution. 
+In my classification pipeline I used Histogram of Oriented Gradients (HOG) features on all channels of the YCbCr image to extract information about the orientations of edges in the image (code cell ...).
 
-Applied to example images, the visualization of the HOG features looks like this:
+Applied to the example images, a visualization of the HOG features looks like this:
 ... HOG vis of example images ...
 
-As parameters for the HOG feature extraction I chose `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2,2)`. 
-I tried to increase `pixels_per_cell` to 16 (with `orientations` set to 11) to reduce the number of features and speed up the classifier, but this decreased the accuracy of bounding boxes, i.e. they fit less tight around the vehicles.
+As parameter values for the HOG feature extraction I chose `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2,2)`. 
+I tried to increase `pixels_per_cell` to `(16, 16)` (with `orientations` set to 11) to reduce the number of features and therefore speed up the classifier, but this decreased the accuracy of detected bounding boxes, i.e. they fit less tightly around the vehicles.
+Decreasing `pixels_per_cell` to `(4, 4)` resulted in a huge feature vector and very long training and classification times. 
 
 ## Classifier Training
 
-The classifier takes a single vector of features (containing color and HOG features) and produces a prediction whether or not an image contains a vehicle.
+The classifier takes in a vector of features (containing color and HOG features scaled to zero mean and unit variance) and produces a prediction whether or not an image contains a vehicle.
 
-At first I started training a Support Vector Machine (SVM) and tried out different kernels (`rbf`, `linear`) and different combinations of parameter values (`C`, `gamma`).
-While a well tuned `rbf` kernel showed good testing accuracy (>98%), it was slow in the prediction and generalization was only average (i.e. there were quite a few false positives / false negatives while testing it on the project video). ---> TODO: testen!!!!!
+After scaling the input feature vector (code cell ...) I first started training a Support Vector Machine (SVM) classifier and tried out different kernels (`rbf`, `linear`) and different combinations of parameter values (`C`, `gamma`).
+While a well tuned `rbf` kernel showed good testing accuracy (>98%), prediction was quite slow and generalization was only average (i.e. there were quite a few false positives / false negatives while testing it on the project video). 
 A well tuned (i.e. a well chosen value for `C`) linear SVM kernel seemed to generally provide better protection against overfitting.
-In the end I settled for a Random Forest Classifier (an ensemble of decision trees) as it could be trained very fast (testing accuracy of about 99%) and gave me the least amount of false positives/negatives of all classification approaches I experimented with.
+In the end I settled for a Random Forest Classifier (an ensemble of decision trees, see code cell ...) as it could be trained very fast (with a testing accuracy of about 99%) and gave me the least amount of false positives / false negatives of all classification approaches I experimented with.
 
 
 ## Sliding Window Search
 
-The classifier is only able to make predictions for small 64 by 64 pixel images.  
-To search for vehicles of different sizes in different places in a big image, the image can be sub sampled into many smaller regions that get scaled to the desired size of 64 by 64 picels and then fed into the classifier. 
+The classifier is only able to make predictions for 64 by 64 pixel images.  
+To search for vehicles of different sizes in different locations in a big image, the image can be sub sampled into many smaller regions that get scaled to the desired size of 64 by 64 pixels and then fed into the classifier. 
 
 I created a class `DetectionLevel` that contains information on how to crop and scale an image to a specific sub image.
 A list of these `DetectionLevel` objects defines how a big image should be split up into small 64 by 64 pixels regions.
 
 ... image with patches on different scales ...
 
+To speed up the extraction of HOG features, theses features are only calculated once per scale level and after that sub sampled to get the features for a specific 64 by 64 sub region (code cell).
 
 While running the classifier on every single sub region of the image a heat map is produced that contains non-zero values where the classifier predicts a vehicle to be located.
 Every vehicle detection adds more "heat" to the map, i.e. the intensity values at the corresponding sub regions get increased.

@@ -72,17 +72,23 @@ A list of these `DetectionLevel` objects defines how a big image should be split
 
 While running the classifier on every single sub region of the image a heat map is produced that contains non-zero values where the classifier predicts a vehicle to be located.
 Every vehicle detection adds more "heat" to the map, i.e. the intensity values at the corresponding sub regions get increased.
-Running the sliding windows search on a single image gives a result like this:
+Running the sliding windows search on a single image gives an end result like this:
 
 ... image | heatmap | overlay ...
 
 Thresholding
 
 
+## Video Processing
+
+The sliding windows approach can produce a heat map of vehicle locations for a single image. 
+When searching for vehicles in a video stream the additional tracking of vehicle locations over time allows for filtering of false positives. 
+
+The filtering technique I applied was calculating the current heat map by averaging the last 10 heat maps (code cell ... ), so that some wrong classifications during a few frames won't influence the final result, i.e. the final heat map, too much. 
 
 
 
-## Heat Map 
+
 
 
 

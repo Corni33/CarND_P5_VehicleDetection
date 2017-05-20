@@ -14,8 +14,8 @@ All of the code for this project is contained in [this jupyter notebook](https:/
 
 ## Feature Extraction
 
-A labeled data set of ...# vehicle and ...# non-vehicle sample images, each with a size of 64 by 64 pixels and 3 color channels, served as a basis for the task of classification.
-In order to train a binary classifier to distinguish vehicles from other objects (e.g. road markings, trees, ...), characteristic featurs of these sample images have to be extracted.  
+A labeled data set of 8797 vehicle and 8970 non-vehicle sample images, each with a size of 64 by 64 pixels and 3 color channels, served as a basis for the task of classification.
+In order to train a binary classifier to distinguish vehicles from other objects (e.g. road markings, trees, ...), characteristic featurs of the sample images have to be extracted.  
 
 ### Color Features
 
@@ -38,7 +38,7 @@ And these are the color channels and histograms of the non-vehicle image:
 ![alt-text-1](./output_images/hist_non_vehicle.png "Histograms of non-vehicle image")
 
 Another way of utilizing color information while also retaining some spatial information, is to just take the raw image pixel values and unravel them into a feature vector.
-Doing so for the whole 64 by 64 pixel image would create a huge feature vector (4096 elements!) while not necessarily being of much use, as not all of the pixels contain relevant information about the class of the image.
+Doing so for the whole 64 by 64 pixel image would create a huge feature vector (12288 elements!) while not necessarily being of much use, as not all of the pixels contain relevant information about the class of the image.
 To cope with this problem the image gets scaled down to a more reasonable resolution that produces a smaller feature vector while still retaining information about the spatial structure of the image.
 After some experimentation I chose a downscaled resolution of 16 by 16 pixels:
 
@@ -91,7 +91,7 @@ On an example image the resulting sub images look like this (every contained pat
 
 
 I chose these specific four subdivisions because I wanted to detect vehicles very close to the ego-vehicle and also far away from it, but still be able to process each frame in a reasonable amount of time.  
-To speed up the extraction of HOG features, theses features are only calculated once for every one of the four scale levels and after that sub sampled to get the features for a specific 64 by 64 pixel sub region (code cell ...).
+To speed up the extraction of HOG features, they are only calculated once for each of the four scale levels and after that sub sampled to get the features for a specific 64 by 64 pixel sub region (code cell ...).
 
 While running the classifier on every single sub region of the image a heat map is produced that contains non-zero values where the classifier predicts a vehicle to be located.
 Every vehicle detection adds more "heat" to the map, i.e. the intensity values at the corresponding heat map regions get increased.
@@ -99,13 +99,13 @@ Running the sliding window search on a single image gives a heat map like this (
 
 ![alt-text-1](./output_images/heat_map.png "heat map")
 
-To get the locations of vehicles in the image, a threshold gets applied to the heat map (code cell ...).
+To get the locations of vehicles in the image, a threshold is applied to the heat map (code cell ...).
 The value of this threshold is based on the standard deviation of heat values and limited by fixed upper and lower bounds. 
 This is an example of a thresholded heat map:
 
 ![alt-text-1](./output_images/heat_map_thresh.png "heat map with threshold")
 
-Bounding boxes are now drawn around every region of the image, where the heat value is bigger than the heat threshold.
+Bounding boxes are now drawn around every region of the image, where the heat value is bigger than the heat threshold (white regions in the image above).
 The following image is an example for the final output of the vehicle detection pipeline for a single image: 
 
 ![alt-text-1](./output_images/final_image.png "final output image")
@@ -128,8 +128,8 @@ Here's a [link to the final video](./output.mp4) that shows the whole detection 
 
 Although my vehicle detection pipeline works well on the project video it has some shortcomings and room for improvements.
 
-The bounding boxes don't fit very tightly around the vehicle body all the time. 
-Also they still wiggle around quite a bit, even after low pass filtering. 
+The bounding boxes don't fit around the vehicle body very tightly at all times. 
+They also still wiggle around quite a bit, even after low pass filtering. 
 These two points have to be addressed before considering using the bounding boxes as input for a path planner, or else the vehicle might change its planned behavior too often.
 
 Another shortcoming of the current pipeline is that multiple vehicles will be merged into a common bounding box when they appear very close to each other in the image.

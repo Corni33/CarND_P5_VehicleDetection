@@ -10,4 +10,20 @@ To achieve this, the following steps were performed:
 * Design and implementation of a heat map technique to suppress outliers and make the detection of vehicles more robust
 * Estimation of a bounding box for detected vehicles
 
-All of the code for completing this project is contained in [this jupyter notebook](https://github.com/Corni33/CarND_P4_AdvancedLaneLines/blob/master/advanced_lane_lines.ipynb).
+All of the code for completing this project is contained in [this jupyter notebook](https://github.com/Corni33/CarND_P5_VehicleDetection/blob/master/vehicle_detection.ipynb).
+
+## Feature Extraction
+
+... color space
+
+### Color Features
+
+...
+
+### HOG Features
+...
+
+
+
+
+

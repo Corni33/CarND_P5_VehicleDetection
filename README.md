@@ -59,6 +59,17 @@ A well tuned (i.e. a well chosen value for `C`) linear SVM kernel seemed to gene
 In the end I settled for a Random Forest Classifier (an ensemble of decision trees) as it could be trained very fast (testing accuracy of about 99%) and gave me the least amount of false positives/negatives of all classification approaches I experimented with.
 
 
+## Sliding Window Search
+
+The classifier is only able to make predictions for small 64 by 64 pixel images.  
+To search for vehicles of different sizes in different places of a big image, this image can be sub sampled into many smaller regions that get scaled to the desired size of 64 by 64 picels and then fed into the classifier. 
+
+I created a class `DetectionLevel` that contains information on how to crop and scale an image to a specific sub image.
+A list of these `DetectionLevel` objects defines how a big image should be split up into small 64 by 64 pixels regions.
+
+
+## Heat Map 
+
 
 
 

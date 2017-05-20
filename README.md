@@ -74,7 +74,7 @@ While running the classifier on every single sub region of the image a heat map 
 Every vehicle detection adds more "heat" to the map, i.e. the intensity values at the corresponding sub regions get increased.
 Running the sliding windows search on a single image gives an end result like this:
 
-... image | heatmap | overlay ...
+... image | heatmap | overlay ... mehrere sample images
 
 Thresholding
 
@@ -85,6 +85,20 @@ The sliding windows approach can produce a heat map of vehicle locations for a s
 When searching for vehicles in a video stream the additional tracking of vehicle locations over time allows for filtering of false positives. 
 
 The filtering technique I applied was calculating the current heat map by averaging the last 10 heat maps (code cell ... ), so that some wrong classifications during a few frames won't influence the final result, i.e. the final heat map, too much. 
+
+Here's a [link to the resulting video](./output.mp4) that shows the whole detection pipeline in action.
+
+
+## Discussion
+
+Classifier gets irritated by traffic signs that appear in roughly the same constellation as the back of a car
+
+Bounding Boxes not very tight
+
+Can not run in real time
+
+
+
 
 
 

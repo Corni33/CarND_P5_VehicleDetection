@@ -38,6 +38,12 @@ After some experimentation I chose a resolution of 24 by 24 pixels:
 ...image 24 by 24 ...
 
 ### HOG Features
+
+A very important feature for detecting vehicles is their characteristic shape. 
+Even without color information, a human can easily identify a car in many different situations.
+In my classification pipeline I used "histogram of oriented gradients" (HOG) features to extract shape information from images.
+
+
 ...
 
 

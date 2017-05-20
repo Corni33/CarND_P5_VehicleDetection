@@ -105,7 +105,7 @@ This is an example of a thresholded heat map:
 
 ![alt-text-1](./output_images/heat_map_thresh.png "heat map with threshold")
 
-Bounding boxes are now drawn around every region of the image, where the heat value is bigger than the heat threshold.
+Bounding boxes are now drawn around every region of the image, where the heat value is bigger than the heat threshold (white regions in the image above).
 The following image is an example for the final output of the vehicle detection pipeline for a single image: 
 
 ![alt-text-1](./output_images/final_image.png "final output image")

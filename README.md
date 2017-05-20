@@ -62,10 +62,24 @@ In the end I settled for a Random Forest Classifier (an ensemble of decision tre
 ## Sliding Window Search
 
 The classifier is only able to make predictions for small 64 by 64 pixel images.  
-To search for vehicles of different sizes in different places of a big image, this image can be sub sampled into many smaller regions that get scaled to the desired size of 64 by 64 picels and then fed into the classifier. 
+To search for vehicles of different sizes in different places in a big image, the image can be sub sampled into many smaller regions that get scaled to the desired size of 64 by 64 picels and then fed into the classifier. 
 
 I created a class `DetectionLevel` that contains information on how to crop and scale an image to a specific sub image.
 A list of these `DetectionLevel` objects defines how a big image should be split up into small 64 by 64 pixels regions.
+
+... image with patches on different scales ...
+
+
+While running the classifier on every single sub region of the image a heat map is produced that contains non-zero values where the classifier predicts a vehicle to be located.
+Every vehicle detection adds more "heat" to the map, i.e. the intensity values at the corresponding sub regions get increased.
+Running the sliding windows search on a single image gives a result like this:
+
+... image | heatmap | overlay ...
+
+Thresholding
+
+
+
 
 
 ## Heat Map 

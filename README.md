@@ -10,27 +10,26 @@ To achieve this, the following steps were performed:
 * Design and implementation of a heat map technique to suppress outliers and make the detection of vehicles more robust
 * Estimation of a bounding box for detected vehicles
 
-All of the code for completing this project is contained in [this jupyter notebook](https://github.com/Corni33/CarND_P5_VehicleDetection/blob/master/vehicle_detection.ipynb).
+All of the code for this project is contained in [this jupyter notebook](https://github.com/Corni33/CarND_P5_VehicleDetection/blob/master/vehicle_detection.ipynb).
 
 ![alt-text-1](./readme_images/chessboard_dist.png "Distorted Image") ![alt-text-1](./readme_images/chessboard_undist.png "Undistorted Image") 
 
 ## Feature Extraction
 
-The labeled data set consist of ...# vehicle and ...# non-vehicle images, each with a size of 64 by 64 pixels and 3 color channels.
-
-In order to train a classifier to distinguish vehicles from other objects (e.g. road markings, trees, ...), characteristik featurs of the images have to be extracted.  
+A labeled data set of ...# vehicle and ...# non-vehicle sample images, each with a size of 64 by 64 pixels and 3 color channels, served as a basis for the task of classification.
+In order to train a binary classifier to distinguish vehicles from other objects (e.g. road markings, trees, ...), characteristic featurs of these sample images have to be extracted.  
 
 ### Color Features
 
 An example of a vehicle image and a non vehicle image looks like this:
 .. example images RGB ... 
 
-In this case it's easy to see that one possible criterion for classifying images might be color information.
-To use this information a histogram over the whole image for each color channel is calculated and unraveled into a feature vector:
+In this case it's easy to see that one possible criterion for classifying the sample images might be color information.
+To make use of this color information, a histogram for each color channel is calculated and unraveled into a feature vector:
 ... hist plot RGB ....
  .. feature vec plot ...
 
-It turns out that using a different color space can help to 
+It turns out that using the YCrCb color space yields better classification results. 
 ... YCrCb
 
 Another way of utilizing color information while also retaining some spatial information, is to just take the raw image pixel values and unravel them into a feature vector.

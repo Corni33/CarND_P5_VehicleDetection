@@ -77,16 +77,18 @@ I use a list of four `DetectionLevel` objects to define how a big image gets spl
 ... image with patches on 4 different scales ...
 
 I chose these specific four subdivisions because I wanted to detect vehicles very close to the ego-vehicle and also far away from it, but still be able to process each frame in a reasonable amount of time.  
-To speed up the extraction of HOG features, theses features are only calculated once for every one of the four scale levels and after that sub sampled to get the features for a specific 64 by 64 sub region (code cell ...).
+To speed up the extraction of HOG features, theses features are only calculated once for every one of the four scale levels and after that sub sampled to get the features for a specific 64 by 64 pixel sub region (code cell ...).
 
 While running the classifier on every single sub region of the image a heat map is produced that contains non-zero values where the classifier predicts a vehicle to be located.
-Every vehicle detection adds more "heat" to the map, i.e. the intensity values at the corresponding sub regions get increased.
-Running the sliding windows search on a single image gives an end result like this:
+Every vehicle detection adds more "heat" to the map, i.e. the intensity values at the corresponding heat map regions get increased.
+Running the sliding window search on a single image gives a result like this:
 
 ... image | heatmap | overlay ... mehrere sample images
 
-Thresholding -> based on std dev
-Rectangles -> filtering
+To get the locations of vehicles in the image, a threshold gets applied to the heat map (code cell ...).
+The value for this threshold is based on the standard deviation of heat values and limited by fixed upper and lower bounds. 
+Bounding boxes are now drawn around every region of the image, where the heat value is bigger than the heat threshold.
+This is an example for the final output of the vehicle detection pipeline for a single image: 
 
 
 ## Video Processing
@@ -94,7 +96,9 @@ Rectangles -> filtering
 The sliding windows approach can produce a heat map of vehicle locations for a single image. 
 When searching for vehicles in a video stream the additional tracking of vehicle locations over time allows for filtering of false positives. 
 
-The filtering technique I applied was calculating the current heat map by averaging the last 10 heat maps (code cell ... ), so that some wrong classifications during a few frames won't influence the final result, i.e. the final heat map, too much. 
+The filtering technique I applied was calculating the current heat map by averaging over the last 10 heat maps (code cell ... ), so that some wrong classifications during a few frames won't influence the final result, i.e. the final heat map, too much. 
+
+Rectangles -> filtering
 
 Here's a [link to the resulting video](./output.mp4) that shows the whole detection pipeline in action.
 

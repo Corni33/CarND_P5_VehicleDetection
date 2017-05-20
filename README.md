@@ -29,8 +29,13 @@ To use this information a histogram over the whole image for each color channel 
  .. feature vec plot ...
 
 It turns out that using a different color space can help to 
-
 ...
+
+Another way of utilizing color information while also retaining some spatial information, is to just take the raw image pixel values and unravel them into a feature vector.
+Doing so for the whole 64 by 64 pixel image will create a very big feature vector (4096 elements!) while not necessarily / and also ... , as not every pixel contains relevant information about the class of the image.
+To cope with this problem the image gets scaled down to a more reasonable resolution that produces a smaller feature vector while still containing information about the spatial structure of the image.
+After some experimentation I chose a resolution of 24 by 24 pixels:
+...image 24 by 24 ...
 
 ### HOG Features
 ...

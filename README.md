@@ -14,9 +14,21 @@ All of the code for completing this project is contained in [this jupyter notebo
 
 ## Feature Extraction
 
-... color space
+The labeled data set consist of ...# vehicle and ...# non-vehicle images, each with a size of 64 by 64 pixels and 3 color channels.
+
+In order to train a classifier to distinguish vehicles from other objects (e.g. road markings, trees, ...), characteristik featurs of the images have to be extracted.  
 
 ### Color Features
+
+An example of a vehicle image and a non vehicle image looks like this:
+.. example images RGB ... 
+
+In this case it's easy to see that one possible criterion for classifying images might be color information.
+To use this information a histogram over the whole image for each color channel is calculated and unraveled into a feature vector:
+... hist plot RGB ....
+ .. feature vec plot ...
+
+It turns out that using a different color space can help to 
 
 ...
 

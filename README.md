@@ -99,7 +99,7 @@ Running the sliding window search on a single image gives a heat map like this (
 
 ![alt-text-1](./output_images/heat_map.png "heat map")
 
-To get the locations of vehicles in the image, a threshold gets applied to the heat map (code cell ...).
+To get the locations of vehicles in the image, a threshold is applied to the heat map (code cell ...).
 The value of this threshold is based on the standard deviation of heat values and limited by fixed upper and lower bounds. 
 This is an example of a thresholded heat map:
 

@@ -6,8 +6,8 @@ To achieve this, the following steps were performed:
 * Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images
 * Color feature extraction (histogram based and via spatial binning)
 * Training of a binary classifier
-* Implementation of a sliding-window technique to search for vehicles in images.
+* Implementation of a sliding-window technique to search for vehicles in images
 * Design and implementation of a heat map technique to suppress outliers and make the detection of vehicles more robust
-* Estimate a bounding box for detected vehicles
+* Estimation of a bounding box for detected vehicles
 
 All of the code for completing this project is contained in [this jupyter notebook](https://github.com/Corni33/CarND_P4_AdvancedLaneLines/blob/master/advanced_lane_lines.ipynb).

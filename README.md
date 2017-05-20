@@ -38,7 +38,7 @@ And these are the color channels and histograms of the non-vehicle image:
 ![alt-text-1](./output_images/hist_non_vehicle.png "Histograms of non-vehicle image")
 
 Another way of utilizing color information while also retaining some spatial information, is to just take the raw image pixel values and unravel them into a feature vector.
-Doing so for the whole 64 by 64 pixel image would create a huge feature vector (4096 elements!) while not necessarily being of much use, as not all of the pixels contain relevant information about the class of the image.
+Doing so for the whole 64 by 64 pixel image would create a huge feature vector (12288 elements!) while not necessarily being of much use, as not all of the pixels contain relevant information about the class of the image.
 To cope with this problem the image gets scaled down to a more reasonable resolution that produces a smaller feature vector while still retaining information about the spatial structure of the image.
 After some experimentation I chose a downscaled resolution of 16 by 16 pixels:
 

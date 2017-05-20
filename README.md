@@ -76,7 +76,7 @@ Running the sliding windows search on a single image gives an end result like th
 
 ... image | heatmap | overlay ... mehrere sample images
 
-Thresholding -> std dev
+Thresholding -> based on std dev
 Rectangles -> filtering
 
 
@@ -98,12 +98,13 @@ The bounding boxes don't fit very tightly around the vehicle body all the time.
 Also they still wiggle around quite a bit, even after low pass filtering. 
 These two points have to be addressed before considering using the bounding boxes as input for a path planner, or else the vehicle might change its planned behavior too often.
 
-Another shortcoming of the current pipeline is that multiple vehicles are merged into one common bounding box when they appear close to each other in the image.
-Based on the heat map, the implemented thresholding technique can only see one signle region where a lot of detection were made but can not decide if this region should better be separated to account for multiple vehicles.
+Another shortcoming of the current pipeline is that multiple vehicles will be merged into a common bounding box when they appear very close to each other in the image.
+In such a situation the implemented thresholding technique only extracts one single region and we can not determine if this region contains one or multiple vehicles.
 
-
-
-Optimization: run in real time
+If the vehicle detection pipeline should be used during driving, its execution time has to be reduced. 
+Currently the pipeline takes about 2.5 seconds to process one image on my laptop.
+Assuming the camera provides 25 frames per second, the execution has to be sped up by about a factor of 60 to be able to process images in real time. 
+One potential way of doing this would be implementing the whole pipeline in a faster language (e.g. C++) and optimizing the search regions and scale levels.
 
 
 
